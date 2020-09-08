@@ -17,6 +17,7 @@ const adapterConfig = {
 
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
+  cookieSecret: "notverysecret",
 });
 
 const ProductSchema = require("./lists/Product.js");
