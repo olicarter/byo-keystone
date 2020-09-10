@@ -1,4 +1,4 @@
-const { Relationship, Slug, Text, Virtual } = require("@keystonejs/fields");
+const { Relationship, Slug, Text } = require("@keystonejs/fields");
 
 module.exports = {
   fields: {
