@@ -9,7 +9,7 @@ module.exports = {
       type: Virtual,
       resolver: item => `${item.firstName} ${item.lastName}`,
     },
+    netlifyId: { type: Text, isRequired: true, isUnique: true },
     orders: { type: Relationship, ref: "Order.user", many: true },
-    password: { type: Password },
   },
 };

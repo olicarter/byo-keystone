@@ -2,6 +2,7 @@ const { Keystone } = require("@keystonejs/keystone");
 const { GraphQLApp } = require("@keystonejs/app-graphql");
 const { AdminUIApp } = require("@keystonejs/app-admin-ui");
 const { MongooseAdapter: Adapter } = require("@keystonejs/adapter-mongoose");
+
 require("dotenv").config();
 
 const { COOKIE_SECRET, MONGO_URI } = process.env;
