@@ -3,10 +3,11 @@ const { GraphQLApp } = require("@keystonejs/app-graphql");
 const { AdminUIApp } = require("@keystonejs/app-admin-ui");
 const { MongooseAdapter: Adapter } = require("@keystonejs/adapter-mongoose");
 
+const { COOKIE_SECRET, MONGO_URI } = process.env;
+
 const PROJECT_NAME = "byo";
 const adapterConfig = {
-  mongoUri:
-    "mongodb+srv://oli:BCB74202DBo!@cluster0.p7owd.mongodb.net/byo?retryWrites=true&w=majority",
+  mongoUri: MONGO_URI,
 };
 
 /**
@@ -17,7 +18,7 @@ const adapterConfig = {
 
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
-  cookieSecret: "notverysecret",
+  cookieSecret: COOKIE_SECRET,
 });
 
 const OrderItemSchema = require("./lists/OrderItem.js");
