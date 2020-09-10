@@ -20,10 +20,16 @@ const keystone = new Keystone({
   cookieSecret: "notverysecret",
 });
 
+const OrderItemSchema = require("./lists/OrderItem.js");
+const OrderSchema = require("./lists/Order.js");
 const ProductSchema = require("./lists/Product.js");
 const TagSchema = require("./lists/Tag.js");
+const UserSchema = require("./lists/User.js");
 keystone.createList("Product", ProductSchema);
+keystone.createList("Tag", OrderItemSchema);
+keystone.createList("Tag", OrderSchema);
 keystone.createList("Tag", TagSchema);
+keystone.createList("Tag", UserSchema);
 
 module.exports = {
   keystone,
