@@ -23,15 +23,17 @@ const keystone = new Keystone({
   cookieSecret: COOKIE_SECRET,
 });
 
+const CategorySchema = require("./lists/Category.js");
 const OrderItemSchema = require("./lists/OrderItem.js");
 const OrderSchema = require("./lists/Order.js");
 const ProductSchema = require("./lists/Product.js");
 const TagSchema = require("./lists/Tag.js");
 const UnitSchema = require("./lists/Unit.js");
 const UserSchema = require("./lists/User.js");
-keystone.createList("Product", ProductSchema);
-keystone.createList("OrderItem", OrderItemSchema);
+keystone.createList("Category", CategorySchema);
 keystone.createList("Order", OrderSchema);
+keystone.createList("OrderItem", OrderItemSchema);
+keystone.createList("Product", ProductSchema);
 keystone.createList("Tag", TagSchema);
 keystone.createList("Unit", UnitSchema);
 keystone.createList("User", UserSchema);

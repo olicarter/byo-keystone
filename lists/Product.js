@@ -24,6 +24,10 @@ module.exports = {
       ref: "Unit",
       isRequired: true,
     },
+    category: {
+      type: Relationship,
+      ref: "Category.products",
+    },
     tags: {
       type: Relationship,
       ref: "Tag.products",
