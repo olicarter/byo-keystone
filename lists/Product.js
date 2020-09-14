@@ -20,8 +20,8 @@ module.exports = {
       isRequired: true,
     },
     unit: {
-      type: Select,
-      options: "grams, kilograms, millilitres, litres, items",
+      type: Relationship,
+      ref: "Unit",
       isRequired: true,
     },
     tags: {
