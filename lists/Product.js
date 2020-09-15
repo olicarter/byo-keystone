@@ -27,6 +27,7 @@ module.exports = {
     category: {
       type: Relationship,
       ref: "Category.products",
+      many: false,
     },
     tags: {
       type: Relationship,

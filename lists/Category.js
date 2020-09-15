@@ -7,6 +7,7 @@ module.exports = {
     products: {
       type: Relationship,
       ref: "Product.category",
+      many: true,
     },
   },
 };
