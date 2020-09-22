@@ -1,33 +1,18 @@
-const {
-  Decimal,
-  Integer,
-  Relationship,
-  Select,
-  Slug,
-  Text,
-} = require("@keystonejs/fields");
+const { Relationship, Slug, Text } = require("@keystonejs/fields");
 
 module.exports = {
   fields: {
     name: { type: Text, isRequired: true, isUnique: true },
     slug: { type: Slug },
-    price: {
-      type: Decimal,
-      isRequired: true,
-    },
-    increments: {
-      type: Integer,
-      isRequired: true,
-    },
-    unit: {
-      type: Relationship,
-      ref: "Unit",
-      isRequired: true,
-    },
     category: {
       type: Relationship,
       ref: "Category.products",
       many: false,
+    },
+    variants: {
+      type: Relationship,
+      ref: "ProductVariant.product",
+      many: true,
     },
     tags: {
       type: Relationship,
