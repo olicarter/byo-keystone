@@ -20,5 +20,9 @@ module.exports = {
       ref: "Unit",
       isRequired: true,
     },
+    container: {
+      type: Relationship,
+      ref: "Container",
+    },
   },
 };

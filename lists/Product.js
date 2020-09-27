@@ -8,6 +8,7 @@ module.exports = {
       type: Relationship,
       ref: "Category.products",
       many: false,
+      isRequired: true,
     },
     variants: {
       type: Relationship,
