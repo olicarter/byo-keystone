@@ -12,4 +12,5 @@ module.exports = {
     netlifyId: { type: Text, isRequired: true, isUnique: true },
     orders: { type: Relationship, ref: "Order.user", many: true },
   },
+  labelField: "email",
 };
