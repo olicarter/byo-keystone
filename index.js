@@ -23,26 +23,15 @@ const keystone = new Keystone({
   cookieSecret: COOKIE_SECRET,
 });
 
-const CategorySchema = require("./lists/Category.js");
-const ContainerSchema = require("./lists/Container.js");
-const ContentSchema = require("./lists/Content.js");
-const OrderItemSchema = require("./lists/OrderItem.js");
-const OrderSchema = require("./lists/Order.js");
-const ProductSchema = require("./lists/Product.js");
-const ProductVariantSchema = require("./lists/ProductVariant.js");
-const TagSchema = require("./lists/Tag.js");
-const UnitSchema = require("./lists/Unit.js");
-const UserSchema = require("./lists/User.js");
-keystone.createList("Category", CategorySchema);
-keystone.createList("Container", ContainerSchema);
-keystone.createList("Content", ContentSchema);
-keystone.createList("Order", OrderSchema);
-keystone.createList("OrderItem", OrderItemSchema);
-keystone.createList("Product", ProductSchema);
-keystone.createList("ProductVariant", ProductVariantSchema);
-keystone.createList("Tag", TagSchema);
-keystone.createList("Unit", UnitSchema);
-keystone.createList("User", UserSchema);
+keystone.createList("Category", require("./lists/Category.js"));
+keystone.createList("Container", require("./lists/Container.js"));
+keystone.createList("Order", require("./lists/Order.js"));
+keystone.createList("OrderItem", require("./lists/OrderItem.js"));
+keystone.createList("Product", require("./lists/Product.js"));
+keystone.createList("ProductVariant", require("./lists/ProductVariant.js"));
+keystone.createList("Tag", require("./lists/Tag.js"));
+keystone.createList("Unit", require("./lists/Unit.js"));
+keystone.createList("User", require("./lists/User.js"));
 
 module.exports = {
   keystone,
