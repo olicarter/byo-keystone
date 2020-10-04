@@ -23,6 +23,7 @@ const keystone = new Keystone({
   cookieSecret: COOKIE_SECRET,
 });
 
+<<<<<<< HEAD
 keystone.createList('Address', require('./lists/Address.js'));
 keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
@@ -33,6 +34,18 @@ keystone.createList('ProductVariant', require('./lists/ProductVariant.js'));
 keystone.createList('Tag', require('./lists/Tag.js'));
 keystone.createList('Unit', require('./lists/Unit.js'));
 keystone.createList('User', require('./lists/User.js'));
+=======
+keystone.createList("Category", require("./lists/Category.js"));
+keystone.createList("Container", require("./lists/Container.js"));
+keystone.createList("Order", require("./lists/Order.js"));
+keystone.createList("OrderItem", require("./lists/OrderItem.js"));
+keystone.createList("Product", require("./lists/Product.js"));
+keystone.createList("ProductVariant", require("./lists/ProductVariant.js"));
+keystone.createList("Setting", require("./lists/Setting.js"));
+keystone.createList("Tag", require("./lists/Tag.js"));
+keystone.createList("Unit", require("./lists/Unit.js"));
+keystone.createList("User", require("./lists/User.js"));
+>>>>>>> 71430a83e5c039a54e16c817ec8af172b9093c34
 
 module.exports = {
   keystone,
