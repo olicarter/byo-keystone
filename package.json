@@ -21,6 +21,7 @@
     "@keystonejs/app-admin-ui": "^7.3.3",
     "@keystonejs/app-graphql": "^6.1.1",
     "@keystonejs/fields": "^17.1.1",
+    "@keystonejs/fields-markdown": "^5.2.10",
     "@keystonejs/keystone": "^14.0.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0"
