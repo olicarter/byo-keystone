@@ -1,4 +1,4 @@
-const { Decimal, Text } = require('@keystonejs/fields');
+const { Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
@@ -7,11 +7,11 @@ module.exports = {
       isRequired: true,
     },
     flatNumber: {
-      type: Decimal,
+      type: Text,
       isRequired: true,
     },
     postCode: {
-      type: Decimal,
+      type: Text,
       isRequired: true,
     },
   },

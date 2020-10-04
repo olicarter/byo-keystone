@@ -23,6 +23,7 @@ const keystone = new Keystone({
   cookieSecret: COOKIE_SECRET,
 });
 
+keystone.createList('Address', require('./lists/Address.js'));
 keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('Order', require('./lists/Order.js'));
