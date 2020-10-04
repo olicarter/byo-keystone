@@ -1,10 +1,10 @@
-const { Checkbox, Relationship, DateTime } = require("@keystonejs/fields");
+const { Checkbox, Relationship, DateTime } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
     orderItems: {
       type: Relationship,
-      ref: "OrderItem.order",
+      ref: 'OrderItem.order',
       many: true,
     },
     paid: {
@@ -15,7 +15,12 @@ module.exports = {
     },
     user: {
       type: Relationship,
-      ref: "User.orders",
+      ref: 'User.orders',
+      many: false,
+    },
+    address: {
+      type: Relationship,
+      ref: 'Address',
       many: false,
     },
   },

@@ -1,13 +1,13 @@
-const { Keystone } = require("@keystonejs/keystone");
-const { GraphQLApp } = require("@keystonejs/app-graphql");
-const { AdminUIApp } = require("@keystonejs/app-admin-ui");
-const { MongooseAdapter: Adapter } = require("@keystonejs/adapter-mongoose");
+const { Keystone } = require('@keystonejs/keystone');
+const { GraphQLApp } = require('@keystonejs/app-graphql');
+const { AdminUIApp } = require('@keystonejs/app-admin-ui');
+const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const { COOKIE_SECRET, MONGO_URI } = process.env;
 
-const PROJECT_NAME = "byo";
+const PROJECT_NAME = 'byo';
 const adapterConfig = {
   mongoUri: MONGO_URI,
 };
@@ -23,16 +23,17 @@ const keystone = new Keystone({
   cookieSecret: COOKIE_SECRET,
 });
 
-keystone.createList("Category", require("./lists/Category.js"));
-keystone.createList("Container", require("./lists/Container.js"));
-keystone.createList("Order", require("./lists/Order.js"));
-keystone.createList("OrderItem", require("./lists/OrderItem.js"));
-keystone.createList("Product", require("./lists/Product.js"));
-keystone.createList("ProductVariant", require("./lists/ProductVariant.js"));
-keystone.createList("Setting", require("./lists/Setting.js"));
-keystone.createList("Tag", require("./lists/Tag.js"));
-keystone.createList("Unit", require("./lists/Unit.js"));
-keystone.createList("User", require("./lists/User.js"));
+keystone.createList('Address', require('./lists/Address.js'));
+keystone.createList('Category', require('./lists/Category.js'));
+keystone.createList('Container', require('./lists/Container.js'));
+keystone.createList('Order', require('./lists/Order.js'));
+keystone.createList('OrderItem', require('./lists/OrderItem.js'));
+keystone.createList('Product', require('./lists/Product.js'));
+keystone.createList('ProductVariant', require('./lists/ProductVariant.js'));
+keystone.createList('Setting', require('./lists/Setting.js'));
+keystone.createList('Tag', require('./lists/Tag.js'));
+keystone.createList('Unit', require('./lists/Unit.js'));
+keystone.createList('User', require('./lists/User.js'));
 
 module.exports = {
   keystone,
