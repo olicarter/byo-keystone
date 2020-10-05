@@ -1,3 +1,5 @@
+const express = require('express');
+const serverless = require('serverless-http');
 const { Keystone } = require('@keystonejs/keystone');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
@@ -35,10 +37,22 @@ keystone.createList('Tag', require('./lists/Tag.js'));
 keystone.createList('Unit', require('./lists/Unit.js'));
 keystone.createList('User', require('./lists/User.js'));
 
-module.exports = {
-  keystone,
-  apps: [
-    new GraphQLApp(),
-    new AdminUIApp({ name: PROJECT_NAME, enableDefaultRoute: true }),
-  ],
+const setup = keystone
+  .prepare({
+    apps: [
+      new GraphQLApp(),
+      new AdminUIApp({ name: PROJECT_NAME, enableDefaultRoute: true }),
+    ],
+    dev: process.env.NODE_ENV !== 'production',
+  })
+  .then(async ({ middlewares }) => {
+    await keystone.connect();
+    const app = express();
+    app.use(middlewares);
+    return serverless(app);
+  });
+
+module.exports.handler = async (event, context) => {
+  const handler = await setup;
+  return handler(event, context);
 };

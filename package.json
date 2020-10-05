@@ -24,6 +24,8 @@
     "@keystonejs/fields-markdown": "^5.2.10",
     "@keystonejs/keystone": "^14.0.1",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "serverless-http": "^2.6.0"
   }
 }
