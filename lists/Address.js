@@ -14,7 +14,7 @@ module.exports = {
       type: Text,
       isRequired: true,
     },
-    streetName: {
+    street: {
       type: Text,
       isRequired: true,
     },
