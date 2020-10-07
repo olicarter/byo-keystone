@@ -2,15 +2,15 @@ const { Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
-    deliveryFirstName: {
+    firstName: {
       type: Text,
       isRequired: true,
     },
-    deliveryLastName: {
+    lastName: {
       type: Text,
       isRequired: true,
     },
-    deliveryMobile: {
+    phoneNumber: {
       type: Text,
       isRequired: true,
     },
