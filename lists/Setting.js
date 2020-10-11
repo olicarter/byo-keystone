@@ -1,4 +1,4 @@
-const { Markdown } = require("@keystonejs/fields-markdown");
+const { Markdown } = require('@keystonejs/fields-markdown');
 
 module.exports = {
   access: {
