@@ -13,6 +13,9 @@ module.exports = {
     allergenInfo: {
       type: Text,
     },
+    deliveryInfo: {
+      type: Text,
+    },
     ingredients: {
       type: Text,
     },
