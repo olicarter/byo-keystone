@@ -1,10 +1,10 @@
-const { Decimal, Integer, Relationship } = require("@keystonejs/fields");
+const { Decimal, Integer, Relationship } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
     product: {
       type: Relationship,
-      ref: "Product.variants",
+      ref: 'Product.variants',
       many: false,
     },
     increment: {
@@ -15,14 +15,19 @@ module.exports = {
       type: Decimal,
       isRequired: true,
     },
+    tags: {
+      type: Relationship,
+      ref: 'Tag',
+      many: true,
+    },
     unit: {
       type: Relationship,
-      ref: "Unit",
+      ref: 'Unit',
       isRequired: true,
     },
     container: {
       type: Relationship,
-      ref: "Container",
+      ref: 'Container',
     },
   },
 };

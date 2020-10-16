@@ -1,4 +1,4 @@
-const { Relationship, Slug, Text } = require("@keystonejs/fields");
+const { Relationship, Slug, Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
@@ -6,18 +6,27 @@ module.exports = {
     slug: { type: Slug },
     category: {
       type: Relationship,
-      ref: "Category.products",
+      ref: 'Category.products',
       many: false,
       isRequired: true,
     },
-    variants: {
-      type: Relationship,
-      ref: "ProductVariant.product",
-      many: true,
+    allergenInfo: {
+      type: Text,
+    },
+    ingredients: {
+      type: Text,
+    },
+    origin: {
+      type: Text,
     },
     tags: {
       type: Relationship,
-      ref: "Tag.products",
+      ref: 'Tag.products',
+      many: true,
+    },
+    variants: {
+      type: Relationship,
+      ref: 'ProductVariant.product',
       many: true,
     },
   },
