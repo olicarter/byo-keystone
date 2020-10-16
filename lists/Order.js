@@ -23,6 +23,9 @@ module.exports = {
     paidAt: {
       type: DateTime,
     },
+    submitted: {
+      type: Checkbox,
+    },
     user: {
       type: Relationship,
       ref: 'User.orders',
