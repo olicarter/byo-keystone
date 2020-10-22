@@ -1,4 +1,10 @@
-const { Relationship, Text, Virtual } = require('@keystonejs/fields');
+const {
+  Checkbox,
+  Password,
+  Relationship,
+  Text,
+  Virtual,
+} = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
@@ -6,6 +12,20 @@ module.exports = {
       type: Text,
       isRequired: true,
       isUnique: true,
+      access: ({ existingItem, authentication: { item } }) => {
+        return item.isAdmin || existingItem.id === item.id;
+      },
+    },
+    password: {
+      type: Password,
+      access: {
+        // 3. Only admins can see if a password is set. No-one can read their own or other user's passwords.
+        read: ({ authentication }) => authentication.item.isAdmin,
+        // 4. Only authenticated users can update their own password. Admins can update anyone's password.
+        update: ({ existingItem, authentication: { item } }) => {
+          return item.isAdmin || existingItem.id === item.id;
+        },
+      },
     },
     firstName: {
       type: Text,
@@ -33,6 +53,10 @@ module.exports = {
       type: Relationship,
       ref: 'Address',
       many: false,
+    },
+    isAdmin: {
+      type: Checkbox,
+      defaultValue: false,
     },
   },
   labelField: 'email',

@@ -2,6 +2,7 @@ const { Keystone } = require('@keystonejs/keystone');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
+const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 
 require('dotenv').config();
 
@@ -36,10 +37,25 @@ keystone.createList('Tag', require('./lists/Tag.js'));
 keystone.createList('Unit', require('./lists/Unit.js'));
 keystone.createList('User', require('./lists/User.js'));
 
+const authStrategy = keystone.createAuthStrategy({
+  type: PasswordAuthStrategy,
+  list: 'User',
+  config: {
+    identityField: 'email',
+    secretField: 'password',
+  },
+});
+
 module.exports = {
   keystone,
   apps: [
     new GraphQLApp(),
-    new AdminUIApp({ name: PROJECT_NAME, enableDefaultRoute: true }),
+    new AdminUIApp({
+      authStrategy,
+      enableDefaultRoute: true,
+      isAccessAllowed: ({ authentication: { item: user } }) =>
+        !!user && !!user.isAdmin,
+      name: PROJECT_NAME,
+    }),
   ],
 };
