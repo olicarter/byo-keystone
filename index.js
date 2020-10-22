@@ -6,7 +6,7 @@ const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 
 require('dotenv').config();
 
-const { COOKIE_SECRET, MONGO_URI } = process.env;
+const { COOKIE_SECRET, MONGO_URI, NODE_ENV } = process.env;
 
 const PROJECT_NAME = 'byo';
 const adapterConfig = {
@@ -22,6 +22,7 @@ const adapterConfig = {
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
   cookieSecret: COOKIE_SECRET,
+  secureCookies: NODE_ENV === 'production',
 });
 
 keystone.createList('Address', require('./lists/Address.js'));
