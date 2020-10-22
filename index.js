@@ -22,6 +22,7 @@ const adapterConfig = {
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
   cookieSecret: COOKIE_SECRET,
+  secureCookies: true,
 });
 
 keystone.createList('Address', require('./lists/Address.js'));
