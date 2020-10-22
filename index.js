@@ -59,4 +59,7 @@ module.exports = {
       name: PROJECT_NAME,
     }),
   ],
+  configureExpress: app => {
+    app.set('trust proxy', 1);
+  },
 };
