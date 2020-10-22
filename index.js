@@ -6,7 +6,7 @@ const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 
 require('dotenv').config();
 
-const { COOKIE_SECRET, MONGO_URI, NODE_ENV } = process.env;
+const { COOKIE_SECRET, MONGO_URI } = process.env;
 
 const PROJECT_NAME = 'byo';
 const adapterConfig = {
@@ -52,7 +52,7 @@ module.exports = {
     new GraphQLApp(),
     new AdminUIApp({
       authStrategy,
-      enableDefaultRoute: true,
+      // enableDefaultRoute: true,
       isAccessAllowed: ({ authentication: { item: user } }) =>
         !!user && !!user.isAdmin,
       name: PROJECT_NAME,
