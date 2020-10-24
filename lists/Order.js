@@ -1,4 +1,4 @@
-const { Checkbox, Relationship, DateTime } = require('@keystonejs/fields');
+const { Checkbox, DateTime, Relationship } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
@@ -30,6 +30,10 @@ module.exports = {
       type: Relationship,
       ref: 'User.orders',
       many: false,
+    },
+    createdAt: {
+      type: DateTime,
+      defaultValue: () => new Date().toISOString(),
     },
   },
 };
