@@ -39,6 +39,7 @@ const authStrategy = keystone.createAuthStrategy({
   config: {
     identityField: 'email',
     secretField: 'password',
+    protectIdentities: true,
   },
 });
 
