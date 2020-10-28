@@ -7,11 +7,6 @@ module.exports = {
       ref: 'Address',
       many: false,
     },
-    orderAddress: {
-      type: Relationship,
-      ref: 'OrderAddress',
-      many: false,
-    },
     deliverySlot: {
       type: Relationship,
       ref: 'DeliverySlot.orders',

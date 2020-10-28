@@ -24,7 +24,6 @@ keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('DeliverySlot', require('./lists/DeliverySlot.js'));
 keystone.createList('Order', require('./lists/Order.js'));
-keystone.createList('OrderAddress', require('./lists/OrderAddress'));
 keystone.createList('OrderItem', require('./lists/OrderItem.js'));
 keystone.createList('Product', require('./lists/Product.js'));
 keystone.createList('ProductVariant', require('./lists/ProductVariant.js'));
