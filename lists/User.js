@@ -40,27 +40,13 @@ module.exports = {
         },
       },
     },
-    firstName: {
-      type: Text,
-      isRequired: true,
-    },
-    lastName: {
-      type: Text,
-      isRequired: true,
-    },
     name: {
-      type: Virtual,
-      resolver: item => `${item.firstName} ${item.lastName}`,
-    },
-    auth0Id: {
       type: Text,
       isRequired: true,
-      // isUnique: true,
     },
-    netlifyId: {
+    phone: {
       type: Text,
       isRequired: true,
-      isUnique: true,
     },
     orders: {
       type: Relationship,

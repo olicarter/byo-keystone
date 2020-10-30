@@ -2,11 +2,7 @@ const { Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
-    firstName: {
-      type: Text,
-      isRequired: true,
-    },
-    lastName: {
+    name: {
       type: Text,
       isRequired: true,
     },
