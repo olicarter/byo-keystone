@@ -1,9 +1,4 @@
-const {
-  Decimal,
-  Integer,
-  Relationship,
-  Select,
-} = require("@keystonejs/fields");
+const { Decimal, Integer, Select } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
@@ -17,12 +12,12 @@ module.exports = {
     },
     unit: {
       type: Select,
-      options: ["g", "ml"],
+      options: ['g', 'ml'],
       isRequired: true,
     },
     type: {
       type: Select,
-      options: ["bottle", "jar"],
+      options: ['bottle', 'jar'],
       isRequired: true,
     },
   },

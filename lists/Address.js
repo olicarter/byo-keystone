@@ -1,25 +1,26 @@
-const { Text } = require('@keystonejs/fields');
+const { Relationship, Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
+    address: {
+      type: Text,
+      isRequired: true,
+    },
+    deliveryInstructions: {
+      type: Text,
+    },
     name: {
       type: Text,
       isRequired: true,
     },
-    phoneNumber: {
+    phone: {
       type: Text,
       isRequired: true,
     },
-    street: {
-      type: Text,
-      isRequired: true,
-    },
-    flatNumber: {
-      type: Text,
-      isRequired: true,
-    },
-    postCode: {
-      type: Text,
+    postcode: {
+      type: Relationship,
+      ref: 'Postcode',
+      many: false,
       isRequired: true,
     },
   },
