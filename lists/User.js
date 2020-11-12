@@ -3,7 +3,6 @@ const {
   Password,
   Relationship,
   Text,
-  Virtual,
 } = require('@keystonejs/fields');
 
 module.exports = {
