@@ -24,4 +24,5 @@ module.exports = {
       isRequired: true,
     },
   },
+  labelResolver: ({ address, postcode }) => `${address}, ${postcode}`,
 };
