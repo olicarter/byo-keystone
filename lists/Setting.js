@@ -37,5 +37,37 @@ module.exports = {
       type: Text,
       isMultiline: true,
     },
+    shopHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    aboutHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    loginHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    registerHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    accountHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    basketHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    checkoutHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    footerContent: {
+      type: Markdown,
+      isRequired: true,
+    },
   },
 };
