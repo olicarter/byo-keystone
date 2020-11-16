@@ -52,10 +52,10 @@ module.exports = {
       ref: 'Order.user',
       many: true,
     },
-    address: {
+    addresses: {
       type: Relationship,
       ref: 'Address',
-      many: false,
+      many: true,
     },
     isAdmin: {
       type: Checkbox,
