@@ -4,6 +4,12 @@ const {
   Relationship,
   Text,
 } = require('@keystonejs/fields');
+const { gql } = require('apollo-server-express');
+const { compiler } = require('markdown-to-jsx');
+const { renderToStaticMarkup } = require('react-dom/server');
+const Mustache = require('mustache');
+
+const mailgun = require('../mailgun');
 
 module.exports = {
   access: {
@@ -60,6 +66,48 @@ module.exports = {
     isAdmin: {
       type: Checkbox,
       defaultValue: false,
+    },
+  },
+  hooks: {
+    afterChange: async ({
+      context: { executeGraphQL } = {},
+      operation,
+      updatedItem: { email, name } = {},
+    }) => {
+      if (operation === 'create') {
+        try {
+          const {
+            data: { allSettings: [{ newUserEmailContent } = {}] = [] } = {},
+            errors,
+          } = await executeGraphQL({
+            query: gql`
+              {
+                allSettings {
+                  newUserEmailContent
+                }
+              }
+            `,
+          });
+
+          if (errors) throw Error(errors[0]);
+
+          const html = Mustache.render(
+            renderToStaticMarkup(compiler(newUserEmailContent)),
+            { name },
+          );
+
+          const res = await mailgun.messages().send({
+            from: 'Bring Your Own <noreply@byoshop.co.uk>',
+            to: `${name} <${email}>`,
+            subject: 'Welcome to BYO',
+            html,
+          });
+
+          console.log('New user email response', res);
+        } catch (error) {
+          console.error('New user email error', error);
+        }
+      }
     },
   },
   labelField: 'email',

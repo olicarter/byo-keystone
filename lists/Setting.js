@@ -69,5 +69,9 @@ module.exports = {
       type: Markdown,
       isRequired: true,
     },
+    newUserEmailContent: {
+      type: Markdown,
+      isRequired: true,
+    },
   },
 };
