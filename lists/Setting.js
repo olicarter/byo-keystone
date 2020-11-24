@@ -45,6 +45,10 @@ module.exports = {
       type: Markdown,
       isRequired: true,
     },
+    blogHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
     loginHeader: {
       type: Markdown,
       isRequired: true,
