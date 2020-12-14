@@ -4,12 +4,10 @@ const {
   Relationship,
   Text,
 } = require('@keystonejs/fields');
-const { gql } = require('apollo-server-express');
-const { compiler } = require('markdown-to-jsx');
-const { renderToStaticMarkup } = require('react-dom/server');
-const Mustache = require('mustache');
 
-const mailgun = require('../mailgun');
+const { sendEmail } = require('../helpers');
+
+const { NEW_USER_WELCOME_EMAIL_ID } = process.env;
 
 module.exports = {
   access: {
@@ -67,42 +65,31 @@ module.exports = {
       type: Checkbox,
       defaultValue: false,
     },
+    isSuperAdmin: {
+      access: {
+        read: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+          isSuperAdmin,
+        update: ({ authentication: { item: { isSuperAdmin } = {} } }) =>
+          isSuperAdmin,
+      },
+      type: Checkbox,
+      defaultValue: false,
+    },
   },
   hooks: {
     afterChange: async ({
-      context: { executeGraphQL } = {},
+      context,
       operation,
-      updatedItem: { email, name } = {},
+      updatedItem: { email, name, phone } = {},
     }) => {
       if (operation === 'create') {
         try {
-          const {
-            data: { allSettings: [{ newUserEmailContent } = {}] = [] } = {},
-            errors,
-          } = await executeGraphQL({
-            query: gql`
-              {
-                allSettings {
-                  newUserEmailContent
-                }
-              }
-            `,
+          const res = await sendEmail({
+            context,
+            emailId: NEW_USER_WELCOME_EMAIL_ID,
+            to: { email, name },
+            variables: { email, name, phone },
           });
-
-          if (errors) throw Error(errors[0]);
-
-          const html = Mustache.render(
-            renderToStaticMarkup(compiler(newUserEmailContent)),
-            { name },
-          );
-
-          const res = await mailgun.messages().send({
-            from: 'Bring Your Own <noreply@byoshop.co.uk>',
-            to: `${name} <${email}>`,
-            subject: 'Welcome to BYO',
-            html,
-          });
-
           console.log('New user email response', res);
         } catch (error) {
           console.error('New user email error', error);

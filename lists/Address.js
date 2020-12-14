@@ -1,8 +1,8 @@
-const { Relationship, Text } = require('@keystonejs/fields');
+const { Text } = require('@keystonejs/fields');
 
 module.exports = {
   fields: {
-    address: {
+    street: {
       type: Text,
       isRequired: true,
     },
@@ -18,11 +18,9 @@ module.exports = {
       isRequired: true,
     },
     postcode: {
-      type: Relationship,
-      ref: 'Postcode',
-      many: false,
+      type: Text,
       isRequired: true,
     },
   },
-  labelResolver: ({ address, postcode }) => `${address}, ${postcode}`,
+  labelResolver: ({ street, postcode }) => `${street}, ${postcode}`,
 };

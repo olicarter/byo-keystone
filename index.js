@@ -8,7 +8,6 @@ require('dotenv').config();
 
 const { COOKIE_SECRET, MONGO_URI, NODE_ENV } = process.env;
 
-const PROJECT_NAME = 'byo';
 const adapterConfig = {
   mongoUri: MONGO_URI,
 };
@@ -25,6 +24,7 @@ keystone.createList('BlogPost', require('./lists/BlogPost.js'));
 keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('DeliverySlot', require('./lists/DeliverySlot.js'));
+keystone.createList('Email', require('./lists/Email.js'));
 keystone.createList('Order', require('./lists/Order.js'));
 keystone.createList('OrderItem', require('./lists/OrderItem.js'));
 keystone.createList('Postcode', require('./lists/Postcode.js'));
@@ -51,10 +51,10 @@ module.exports = {
     new GraphQLApp(),
     new AdminUIApp({
       authStrategy,
-      // enableDefaultRoute: true,
+      enableDefaultRoute: true,
       isAccessAllowed: ({ authentication: { item: user } }) =>
         !!user && !!user.isAdmin,
-      name: PROJECT_NAME,
+      name: 'BYO',
     }),
   ],
   configureExpress: app => {
