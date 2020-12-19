@@ -10,6 +10,9 @@ module.exports = {
     update: true,
   },
   fields: {
+    calloutText: {
+      type: Text,
+    },
     homeContent: {
       type: Markdown,
       isRequired: true,
