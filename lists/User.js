@@ -4,6 +4,7 @@ const {
   Relationship,
   Text,
 } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 const { sendEmail } = require('../helpers');
 
@@ -98,4 +99,5 @@ module.exports = {
     },
   },
   labelField: 'email',
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

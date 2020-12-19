@@ -3,6 +3,7 @@ const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
+const { logging } = require('@keystonejs/list-plugins');
 
 require('dotenv').config();
 
@@ -43,6 +44,7 @@ const authStrategy = keystone.createAuthStrategy({
     secretField: 'password',
     protectIdentities: true,
   },
+  plugins: [logging(console.log)],
 });
 
 module.exports = {

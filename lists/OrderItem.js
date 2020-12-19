@@ -1,16 +1,17 @@
-const { Integer, Relationship } = require("@keystonejs/fields");
+const { Integer, Relationship } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
     order: {
       type: Relationship,
-      ref: "Order.orderItems",
+      ref: 'Order.orderItems',
       many: false,
       isRequired: true,
     },
     productVariant: {
       type: Relationship,
-      ref: "ProductVariant",
+      ref: 'ProductVariant',
       many: false,
       isRequired: true,
     },
@@ -19,4 +20,5 @@ module.exports = {
       isRequired: true,
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

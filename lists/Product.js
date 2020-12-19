@@ -1,4 +1,5 @@
 const { Relationship, Slug, Text } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -33,4 +34,5 @@ module.exports = {
       many: true,
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

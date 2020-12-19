@@ -1,5 +1,6 @@
 const { Select, Text } = require('@keystonejs/fields');
 const { Markdown } = require('@keystonejs/fields-markdown');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -17,4 +18,5 @@ module.exports = {
       defaultValue: 'draft',
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

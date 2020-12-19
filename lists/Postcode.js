@@ -1,4 +1,5 @@
 const { Text } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   adminConfig: {
@@ -12,4 +13,5 @@ module.exports = {
     },
   },
   labelField: 'postcode',
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

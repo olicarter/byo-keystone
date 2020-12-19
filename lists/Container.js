@@ -1,4 +1,5 @@
 const { Decimal, Integer, Select } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -22,4 +23,5 @@ module.exports = {
     },
   },
   labelResolver: item => `${item.size}${item.unit} ${item.type}`,
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

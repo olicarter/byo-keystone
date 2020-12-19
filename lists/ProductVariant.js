@@ -1,4 +1,5 @@
 const { Decimal, Integer, Relationship } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -30,4 +31,5 @@ module.exports = {
       ref: 'Container',
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

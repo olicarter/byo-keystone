@@ -1,4 +1,5 @@
-const { Text } = require("@keystonejs/fields");
+const { Text } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   access: {
@@ -13,5 +14,6 @@ module.exports = {
     singularAbbreviated: { type: Text, isRequired: true },
     pluralAbbreviated: { type: Text, isRequired: true },
   },
-  labelField: "plural",
+  labelField: 'plural',
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

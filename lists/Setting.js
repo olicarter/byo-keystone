@@ -1,5 +1,6 @@
 const { Integer, Text, Url } = require('@keystonejs/fields');
 const { Markdown } = require('@keystonejs/fields-markdown');
+const { logging, singleton } = require('@keystonejs/list-plugins');
 
 module.exports = {
   access: {
@@ -78,4 +79,5 @@ module.exports = {
       isRequired: true,
     },
   },
+  plugins: [logging(console.log), singleton()],
 };

@@ -1,4 +1,5 @@
 const { Text } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -23,4 +24,5 @@ module.exports = {
     },
   },
   labelResolver: ({ street, postcode }) => `${street}, ${postcode}`,
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

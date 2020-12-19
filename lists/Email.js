@@ -1,5 +1,6 @@
 const { Text } = require('@keystonejs/fields');
 const { Markdown } = require('@keystonejs/fields-markdown');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   access: {
@@ -62,4 +63,5 @@ module.exports = {
     },
   },
   labelField: 'label',
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

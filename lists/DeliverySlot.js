@@ -1,13 +1,14 @@
-const { DateTime, Integer, Relationship } = require('@keystonejs/fields');
+const { DateTimeUtc, Integer, Relationship } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
     startTime: {
-      type: DateTime,
+      type: DateTimeUtc,
       isRequired: true,
     },
     endTime: {
-      type: DateTime,
+      type: DateTimeUtc,
       isRequired: true,
     },
     maxOrders: {
@@ -20,4 +21,5 @@ module.exports = {
       many: true,
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

@@ -4,6 +4,7 @@ const {
   Relationship,
   Text,
 } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 const { gql } = require('apollo-server-express');
 const { DateTime: LuxonDateTime } = require('luxon');
 
@@ -84,10 +85,6 @@ module.exports = {
       type: Relationship,
       ref: 'User.orders',
       many: false,
-    },
-    createdAt: {
-      type: DateTime,
-      defaultValue: () => new Date().toISOString(),
     },
   },
   hooks: {
@@ -181,4 +178,5 @@ module.exports = {
     },
   },
   labelField: 'orderNumber',
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };

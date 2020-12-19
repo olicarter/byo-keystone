@@ -1,4 +1,5 @@
-const { Relationship, Slug, Text } = require("@keystonejs/fields");
+const { Relationship, Slug, Text } = require('@keystonejs/fields');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   fields: {
@@ -6,8 +7,9 @@ module.exports = {
     slug: { type: Slug },
     products: {
       type: Relationship,
-      ref: "Product.tags",
+      ref: 'Product.tags',
       many: true,
     },
   },
+  plugins: [atTracking(), byTracking(), logging(console.log)],
 };
