@@ -1,4 +1,4 @@
-const { Decimal, Integer, Select } = require('@keystonejs/fields');
+const { Decimal, Select } = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
       isRequired: true,
     },
     size: {
-      type: Integer,
+      type: Decimal,
       isRequired: true,
     },
     unit: {
