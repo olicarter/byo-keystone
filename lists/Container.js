@@ -18,7 +18,7 @@ module.exports = {
     },
     type: {
       type: Select,
-      options: ['bottle', 'jar'],
+      options: ['bag', 'bottle', 'jar'],
       isRequired: true,
     },
   },
