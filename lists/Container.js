@@ -13,7 +13,7 @@ module.exports = {
     },
     unit: {
       type: Select,
-      options: ['g', 'ml'],
+      options: ['g', 'kg', 'ml', 'L'],
       isRequired: true,
     },
     type: {
