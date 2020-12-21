@@ -34,6 +34,7 @@ module.exports = {
       type: Text,
     },
     tags: {
+      adminDoc: 'Select any tags that apply to all variants for this product.',
       type: Relationship,
       ref: 'Tag.products',
       many: true,
