@@ -1,12 +1,21 @@
-const { Decimal, Integer, Relationship } = require('@keystonejs/fields');
+const { Decimal, Integer, Relationship, Text } = require('@keystonejs/fields');
+const { CloudinaryImage } = require('@keystonejs/fields-cloudinary-image');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
+
+const { fileAdapters } = require('../helpers');
+
+const { cloudinaryAdapter } = fileAdapters;
 
 module.exports = {
   fields: {
+    image: { type: CloudinaryImage, adapter: cloudinaryAdapter },
     product: {
       type: Relationship,
       ref: 'Product.variants',
       many: false,
+    },
+    name: {
+      type: Text,
     },
     increment: {
       type: Integer,

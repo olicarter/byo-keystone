@@ -1,18 +1,14 @@
 const { Relationship, Slug, Text } = require('@keystonejs/fields');
-const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
-const { CloudinaryAdapter } = require('@keystonejs/file-adapters');
 const { CloudinaryImage } = require('@keystonejs/fields-cloudinary-image');
+const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
-const fileAdapter = new CloudinaryAdapter({
-  cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-  apiKey: process.env.CLOUDINARY_KEY,
-  apiSecret: process.env.CLOUDINARY_SECRET,
-  folder: 'my-keystone-app',
-});
+const { fileAdapters } = require('../helpers');
+
+const { cloudinaryAdapter } = fileAdapters;
 
 module.exports = {
   fields: {
-    image: { type: CloudinaryImage, adapter: fileAdapter },
+    image: { type: CloudinaryImage, adapter: cloudinaryAdapter },
     name: { type: Text, isRequired: true, isUnique: true },
     slug: { type: Slug },
     category: {
