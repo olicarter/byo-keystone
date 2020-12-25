@@ -17,6 +17,11 @@ module.exports = {
       many: false,
       isRequired: true,
     },
+    brand: {
+      type: Relationship,
+      ref: 'Brand.products',
+      many: false,
+    },
     allergenInfo: {
       type: Text,
     },

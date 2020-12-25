@@ -22,6 +22,7 @@ const keystone = new Keystone({
 
 keystone.createList('Address', require('./lists/Address.js'));
 keystone.createList('BlogPost', require('./lists/BlogPost.js'));
+keystone.createList('Brand', require('./lists/Brand.js'));
 keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('DeliverySlot', require('./lists/DeliverySlot.js'));
