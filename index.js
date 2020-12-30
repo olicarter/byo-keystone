@@ -7,6 +7,8 @@ const { logging } = require('@keystonejs/list-plugins');
 
 require('dotenv').config();
 
+const schemaExtensions = require('./schemaExtensions');
+
 const { COOKIE_SECRET, MONGO_URI, NODE_ENV } = process.env;
 
 const adapterConfig = {
@@ -47,6 +49,8 @@ const authStrategy = keystone.createAuthStrategy({
   },
   plugins: [logging(console.log)],
 });
+
+keystone.extendGraphQLSchema(schemaExtensions);
 
 module.exports = {
   keystone,

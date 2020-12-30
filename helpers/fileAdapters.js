@@ -1,10 +1,17 @@
 const { CloudinaryAdapter } = require('@keystonejs/file-adapters');
 
+const {
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_FOLDER,
+  CLOUDINARY_KEY,
+  CLOUDINARY_SECRET,
+} = process.env;
+
 module.exports = {
   cloudinaryAdapter: new CloudinaryAdapter({
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    apiKey: process.env.CLOUDINARY_KEY,
-    apiSecret: process.env.CLOUDINARY_SECRET,
-    folder: 'my-keystone-app',
+    cloudName: CLOUDINARY_CLOUD_NAME,
+    apiKey: CLOUDINARY_KEY,
+    apiSecret: CLOUDINARY_SECRET,
+    folder: CLOUDINARY_FOLDER,
   }),
 };

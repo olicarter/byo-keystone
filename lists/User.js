@@ -37,8 +37,8 @@ module.exports = {
         read: ({ authentication: { item: { isAdmin } = {} } = {} }) => isAdmin,
         // 4. Only authenticated users can update their own password. Admins can update anyone's password.
         update: ({
-          existingItem,
           authentication: { item: { id: itemId, isAdmin } = {} },
+          existingItem,
         }) => {
           return isAdmin || existingItem.id === itemId;
         },
@@ -56,6 +56,9 @@ module.exports = {
       type: Relationship,
       ref: 'Order.user',
       many: true,
+    },
+    passwordResetToken: {
+      type: Text,
     },
     addresses: {
       type: Relationship,
