@@ -1,5 +1,9 @@
-const { resetPassword, sendPasswordResetEmail } = require('./mutations');
+const {
+  resetPassword,
+  sendContactForm,
+  sendPasswordResetEmail,
+} = require('./mutations');
 
 module.exports = {
-  mutations: [resetPassword, sendPasswordResetEmail],
+  mutations: [resetPassword, sendContactForm, sendPasswordResetEmail],
 };

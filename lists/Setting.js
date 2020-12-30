@@ -13,6 +13,7 @@ module.exports = {
     calloutText: {
       type: Text,
     },
+
     homeContent: {
       type: Markdown,
       isRequired: true,
@@ -21,6 +22,7 @@ module.exports = {
       type: Markdown,
       isRequired: true,
     },
+
     facebookUrl: {
       type: Url,
       isRequired: true,
@@ -29,10 +31,12 @@ module.exports = {
       type: Url,
       isRequired: true,
     },
+
     minOrderValue: {
       type: Integer,
       defaultValue: 20,
     },
+
     chooseDeliverySlotInfo: {
       type: Text,
       isMultiline: true,
@@ -41,6 +45,7 @@ module.exports = {
       type: Text,
       isMultiline: true,
     },
+
     shopHeader: {
       type: Markdown,
       isRequired: true,
@@ -50,6 +55,10 @@ module.exports = {
       isRequired: true,
     },
     blogHeader: {
+      type: Markdown,
+      isRequired: true,
+    },
+    contactHeader: {
       type: Markdown,
       isRequired: true,
     },
@@ -73,11 +82,8 @@ module.exports = {
       type: Markdown,
       isRequired: true,
     },
+
     footerContent: {
-      type: Markdown,
-      isRequired: true,
-    },
-    newUserEmailContent: {
       type: Markdown,
       isRequired: true,
     },

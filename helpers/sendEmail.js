@@ -45,11 +45,13 @@ module.exports = async ({
   if (!email && !toEmail) throw Error('Sender email missing');
 
   const renderedSubject = Mustache.render(subject, variables);
+  const renderedFromEmail = Mustache.render(fromEmail, variables);
+  const renderedFromName = Mustache.render(fromName, variables);
 
   const html = Mustache.render(renderToStaticMarkup(compiler(body)), variables);
 
   return mailgun.messages().send({
-    from: `${fromName} <${fromEmail}>`,
+    from: `${renderedFromName} <${renderedFromEmail}>`,
     to: `${name || toName} <${email || toEmail}>`,
     subject: renderedSubject,
     html,
