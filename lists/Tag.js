@@ -5,6 +5,7 @@ module.exports = {
   fields: {
     name: { type: Text, isRequired: true, isUnique: true },
     slug: { type: Slug },
+    abbreviation: { type: Text },
     products: {
       type: Relationship,
       ref: 'Product.tags',
