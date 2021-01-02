@@ -46,6 +46,9 @@ const USER_QUERY = gql`
 `;
 
 module.exports = {
+  access: {
+    delete: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+  },
   fields: {
     address: {
       type: Relationship,
@@ -73,9 +76,65 @@ module.exports = {
       many: true,
     },
     paid: {
+      access: {
+        create: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
+          !!isAdmin,
+        delete: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
+          !!isAdmin,
+        update: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
+          !!isAdmin,
+      },
       type: Checkbox,
+      hooks: {
+        afterChange: async ({
+          context: { createContext, executeGraphQL } = {},
+          existingItem: { id, paid: existingPaid } = {},
+          operation,
+          updatedItem: { paid: updatedPaid },
+        }) => {
+          if (operation === 'update') {
+            if (!existingPaid && updatedPaid) {
+              const { errors } = await executeGraphQL({
+                context: createContext({ skipAccessControl: true }),
+                query: gql`
+                  mutation($id: ID!, $paidAt: DateTime!) {
+                    updateOrder(id: $id, data: { paidAt: $paidAt }) {
+                      id
+                    }
+                  }
+                `,
+                variables: { id, paidAt: new Date().toISOString() },
+              });
+
+              if (errors) throw Error(errors[0]);
+            } else if (existingPaid && !updatedPaid) {
+              const { errors } = await executeGraphQL({
+                context: createContext({ skipAccessControl: true }),
+                query: gql`
+                  mutation($id: ID!, $paidAt: DateTime!) {
+                    updateOrder(id: $id, data: { paidAt: $paidAt }) {
+                      id
+                    }
+                  }
+                `,
+                variables: { id, paidAt: '' },
+              });
+
+              if (errors) throw Error(errors[0]);
+            }
+          }
+        },
+      },
     },
     paidAt: {
+      access: {
+        create: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+          !!isSuperAdmin,
+        delete: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+          !!isSuperAdmin,
+        update: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+          !!isSuperAdmin,
+      },
       type: DateTime,
     },
     submitted: {
@@ -100,79 +159,88 @@ module.exports = {
       operation,
       originalInput: { submitted } = {},
     }) => {
-      if (operation === 'update' && submitted) {
-        try {
-          const {
-            data: {
-              Address: {
-                address,
-                deliveryInstructions,
-                name,
-                phone,
-                postcode,
+      if (operation === 'update') {
+        if (submitted) {
+          if (!addressId) throw Error('Address is required');
+
+          if (!deliverySlotId) throw Error('Delivery slot is required');
+
+          try {
+            const {
+              data: {
+                Address: {
+                  address,
+                  deliveryInstructions,
+                  name,
+                  phone,
+                  postcode,
+                } = {},
               } = {},
-            } = {},
-            errors: AddressQueryErrors,
-          } = await executeGraphQL({
-            context: createContext({ skipAccessControl: true }),
-            query: ADDRESS_QUERY,
-            variables: { id: addressId.toString() },
-          });
-          const {
-            data: { DeliverySlot: { endTime, startTime } = {} } = {},
-            errors: DeliverySlotQueryErrors,
-          } = await executeGraphQL({
-            context: createContext({ skipAccessControl: true }),
-            query: DELIVERY_SLOT_QUERY,
-            variables: { id: deliverySlotId.toString() },
-          });
-          const {
-            data: { User = {} } = {},
-            errors: UserQueryErrors,
-          } = await executeGraphQL({
-            context: createContext({ skipAccessControl: true }),
-            query: USER_QUERY,
-            variables: { id: userId.toString() },
-          });
+              errors: AddressQueryErrors,
+            } = await executeGraphQL({
+              context: createContext({ skipAccessControl: true }),
+              query: ADDRESS_QUERY,
+              variables: { id: addressId.toString() },
+            });
+            const {
+              data: { DeliverySlot: { endTime, startTime } = {} } = {},
+              errors: DeliverySlotQueryErrors,
+            } = await executeGraphQL({
+              context: createContext({ skipAccessControl: true }),
+              query: DELIVERY_SLOT_QUERY,
+              variables: { id: deliverySlotId.toString() },
+            });
+            const {
+              data: { User = {} } = {},
+              errors: UserQueryErrors,
+            } = await executeGraphQL({
+              context: createContext({ skipAccessControl: true }),
+              query: USER_QUERY,
+              variables: { id: userId.toString() },
+            });
 
-          if (AddressQueryErrors) throw Error(AddressQueryErrors[0]);
-          if (DeliverySlotQueryErrors) throw Error(DeliverySlotQueryErrors[0]);
-          if (UserQueryErrors) throw Error(UserQueryErrors[0]);
+            if (AddressQueryErrors) throw Error(AddressQueryErrors[0]);
+            if (DeliverySlotQueryErrors)
+              throw Error(DeliverySlotQueryErrors[0]);
+            if (UserQueryErrors) throw Error(UserQueryErrors[0]);
 
-          const addressString = `${name}, ${address}, ${postcode}`;
+            const addressString = `${name}, ${address}, ${postcode}`;
 
-          const st = LuxonDateTime.fromISO(startTime, {
-            zone: 'Europe/London',
-          });
-          const et = LuxonDateTime.fromISO(endTime, { zone: 'Europe/London' });
-          const deliverySlot = `${st.toFormat(
-            "cccc d LLL',' HH':'mm",
-          )}-${et.toFormat("HH':'mm")}`;
+            const st = LuxonDateTime.fromISO(startTime, {
+              zone: 'Europe/London',
+            });
+            const et = LuxonDateTime.fromISO(endTime, {
+              zone: 'Europe/London',
+            });
+            const deliverySlot = `${st.toFormat(
+              "cccc d LLL',' HH':'mm",
+            )}-${et.toFormat("HH':'mm")}`;
 
-          const variables = {
-            address: addressString,
-            deliveryInstructions,
-            deliverySlot,
-            email: User.email,
-            name: User.name,
-            orderNumber,
-            phone,
-          };
+            const variables = {
+              address: addressString,
+              deliveryInstructions,
+              deliverySlot,
+              email: User.email,
+              name: User.name,
+              orderNumber,
+              phone,
+            };
 
-          await sendEmail({
-            context,
-            emailId: CUSTOMER_ORDER_CONFIRMATION_EMAIL_ID,
-            to: User,
-            variables,
-          });
+            await sendEmail({
+              context,
+              emailId: CUSTOMER_ORDER_CONFIRMATION_EMAIL_ID,
+              to: User,
+              variables,
+            });
 
-          await sendEmail({
-            context,
-            emailId: ADMIN_ORDER_NOTIFICATION_EMAIL_ID,
-            variables,
-          });
-        } catch (error) {
-          console.error('Send email error', error);
+            await sendEmail({
+              context,
+              emailId: ADMIN_ORDER_NOTIFICATION_EMAIL_ID,
+              variables,
+            });
+          } catch (error) {
+            console.error('Send email error', error);
+          }
         }
       }
     },

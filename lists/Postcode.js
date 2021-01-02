@@ -5,7 +5,12 @@ module.exports = {
   adminConfig: {
     defaultColumns: 'postcode',
   },
-  adminDoc: 'Allowed delivery postcode prefixes.',
+  adminDoc: 'Allowed postcode outcodes for delivery',
+  access: {
+    create: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    delete: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+  },
   fields: {
     postcode: {
       type: Text,

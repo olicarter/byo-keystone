@@ -7,6 +7,11 @@ const { fileAdapters } = require('../helpers');
 const { cloudinaryAdapter } = fileAdapters;
 
 module.exports = {
+  access: {
+    create: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    delete: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+  },
   fields: {
     image: { type: CloudinaryImage, adapter: cloudinaryAdapter },
     product: {

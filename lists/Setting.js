@@ -7,7 +7,7 @@ module.exports = {
     create: false,
     delete: false,
     read: true,
-    update: true,
+    update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
   },
   fields: {
     calloutText: {

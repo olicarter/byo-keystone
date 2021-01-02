@@ -34,7 +34,8 @@ module.exports = {
       type: Password,
       access: {
         // 3. Only admins can see if a password is set. No-one can read their own or other user's passwords.
-        read: ({ authentication: { item: { isAdmin } = {} } = {} }) => isAdmin,
+        read: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
+          !!isAdmin,
         // 4. Only authenticated users can update their own password. Admins can update anyone's password.
         update: ({
           authentication: { item: { id: itemId, isAdmin } = {} },
@@ -72,9 +73,9 @@ module.exports = {
     isSuperAdmin: {
       access: {
         read: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
-          isSuperAdmin,
+          !!isSuperAdmin,
         update: ({ authentication: { item: { isSuperAdmin } = {} } }) =>
-          isSuperAdmin,
+          !!isSuperAdmin,
       },
       type: Checkbox,
       defaultValue: false,

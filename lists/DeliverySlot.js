@@ -2,6 +2,11 @@ const { DateTimeUtc, Integer, Relationship } = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
+  access: {
+    create: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    delete: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+  },
   fields: {
     startTime: {
       type: DateTimeUtc,

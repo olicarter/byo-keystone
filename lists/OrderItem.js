@@ -1,4 +1,4 @@
-const { Integer, Relationship } = require('@keystonejs/fields');
+const { Checkbox, Integer, Relationship } = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
@@ -18,6 +18,10 @@ module.exports = {
     quantity: {
       type: Integer,
       isRequired: true,
+    },
+    isContainerReturned: {
+      type: Checkbox,
+      defaultValue: false,
     },
   },
   plugins: [atTracking(), byTracking(), logging(console.log)],

@@ -5,11 +5,11 @@ const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 module.exports = {
   access: {
     create: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
-      isSuperAdmin,
+      !!isSuperAdmin,
     delete: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
-      isSuperAdmin,
-    read: ({ authentication: { item: { isAdmin } = {} } = {} }) => isAdmin,
-    update: ({ authentication: { item: { isAdmin } = {} } }) => isAdmin,
+      !!isSuperAdmin,
+    read: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    update: ({ authentication: { item: { isAdmin } = {} } }) => !!isAdmin,
   },
   adminConfig: {
     defaultColumns: 'subject,fromEmail',

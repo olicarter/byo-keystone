@@ -3,10 +3,13 @@ const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
   access: {
-    create: false,
-    delete: false,
+    create: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+      !!isSuperAdmin,
+    delete: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+      !!isSuperAdmin,
     read: true,
-    update: false,
+    update: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+      !!isSuperAdmin,
   },
   fields: {
     singular: { type: Text, isRequired: true },

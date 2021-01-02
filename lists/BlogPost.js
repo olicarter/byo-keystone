@@ -3,6 +3,11 @@ const { Markdown } = require('@keystonejs/fields-markdown');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
+  access: {
+    create: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    delete: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+    update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
+  },
   fields: {
     title: {
       type: Text,
