@@ -2,10 +2,10 @@ const { Text } = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
-  access: {
-    delete: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
-      !!isSuperAdmin,
-  },
+  // access: {
+  //   delete: ({ authentication: { item: { isSuperAdmin } = {} } = {} }) =>
+  //     !!isSuperAdmin,
+  // },
   fields: {
     street: {
       type: Text,

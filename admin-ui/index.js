@@ -2,11 +2,11 @@ import { OnLoanContainers } from './pages';
 
 export default {
   pages: () => [
-    // {
-    //   label: 'On-loan containers',
-    //   path: 'on-loan-containers',
-    //   component: OnLoanContainers,
-    // },
+    {
+      label: 'On-loan containers',
+      path: 'on-loan-containers',
+      component: OnLoanContainers,
+    },
     {
       label: 'Order',
       children: [

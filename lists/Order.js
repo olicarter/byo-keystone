@@ -18,11 +18,11 @@ const {
 const ADDRESS_QUERY = gql`
   query($id: ID!) {
     Address(where: { id: $id }) {
-      address
       deliveryInstructions
       name
       phone
       postcode
+      street
     }
   }
 `;
@@ -147,10 +147,10 @@ module.exports = {
     },
   },
   hooks: {
-    beforeChange: async ({
+    afterChange: async ({
       context,
       context: { createContext, executeGraphQL } = {},
-      existingItem: {
+      updatedItem: {
         address: addressId,
         deliverySlot: deliverySlotId,
         orderNumber,
@@ -161,19 +161,15 @@ module.exports = {
     }) => {
       if (operation === 'update') {
         if (submitted) {
-          if (!addressId) throw Error('Address is required');
-
-          if (!deliverySlotId) throw Error('Delivery slot is required');
-
           try {
             const {
               data: {
                 Address: {
-                  address,
                   deliveryInstructions,
                   name,
                   phone,
                   postcode,
+                  street,
                 } = {},
               } = {},
               errors: AddressQueryErrors,
@@ -204,7 +200,7 @@ module.exports = {
               throw Error(DeliverySlotQueryErrors[0]);
             if (UserQueryErrors) throw Error(UserQueryErrors[0]);
 
-            const addressString = `${name}, ${address}, ${postcode}`;
+            const addressString = `${name}, ${street}, ${postcode}`;
 
             const st = LuxonDateTime.fromISO(startTime, {
               zone: 'Europe/London',

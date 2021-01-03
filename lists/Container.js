@@ -27,6 +27,7 @@ module.exports = {
       isRequired: true,
     },
   },
-  labelResolver: item => `${item.size}${item.unit} ${item.type}`,
+  labelResolver: item =>
+    `${item.size}${item.unit} ${item.type} - £${item.price}`,
   plugins: [atTracking(), byTracking(), logging(console.log)],
 };
