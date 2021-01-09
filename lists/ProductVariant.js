@@ -20,6 +20,8 @@ module.exports = {
       many: false,
     },
     name: {
+      adminDoc:
+        'Variant name. This is not searchable so try to use this field for things like flavour or fragrance variations, rather than functional variations e.g. shampoo and conditioner should be different products, not different variants.',
       type: Text,
     },
     increment: {

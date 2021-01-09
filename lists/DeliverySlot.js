@@ -1,4 +1,9 @@
-const { DateTimeUtc, Integer, Relationship } = require('@keystonejs/fields');
+const {
+  DateTimeUtc,
+  Decimal,
+  Integer,
+  Relationship,
+} = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
 module.exports = {
@@ -15,6 +20,10 @@ module.exports = {
     endTime: {
       type: DateTimeUtc,
       isRequired: true,
+    },
+    deliveryCharge: {
+      type: Decimal,
+      defaultValue: 4.5,
     },
     maxOrders: {
       type: Integer,
