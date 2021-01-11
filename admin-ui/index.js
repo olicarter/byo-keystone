@@ -34,6 +34,7 @@ export default {
     {
       label: 'Website',
       children: [
+        { listKey: 'Page' },
         { listKey: 'Setting' },
         { listKey: 'Email', label: 'Email Templates' },
         { listKey: 'BlogPost' },

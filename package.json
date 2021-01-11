@@ -24,6 +24,7 @@
     "@keystonejs/email": "^5.2.0",
     "@keystonejs/fields": "^21.0.0",
     "@keystonejs/fields-cloudinary-image": "^2.1.1",
+    "@keystonejs/fields-content": "^9.0.4",
     "@keystonejs/fields-markdown": "^5.2.13",
     "@keystonejs/file-adapters": "^7.0.8",
     "@keystonejs/keystone": "^18.0.0",
@@ -35,6 +36,7 @@
     "markdown-to-jsx": "^7.1.0",
     "mustache": "^4.0.1",
     "react-html-email": "^3.0.0",
+    "slugify": "^1.4.6",
     "uuid": "^8.3.2"
   }
 }
