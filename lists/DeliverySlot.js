@@ -23,11 +23,13 @@ module.exports = {
     },
     deliveryCharge: {
       type: Decimal,
-      defaultValue: 4.5,
+      defaultValue: '4.50',
+      isRequired: true,
     },
     maxOrders: {
       type: Integer,
       defaultValue: 30,
+      isRequired: true,
     },
     orders: {
       type: Relationship,
