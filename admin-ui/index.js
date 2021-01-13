@@ -1,7 +1,12 @@
-import { OnLoanContainers } from './pages';
+import { OnLoanContainers, OrdersPendingPayment } from './pages';
 
 export default {
   pages: () => [
+    {
+      label: 'Orders pending delivery/payment',
+      path: 'pending-orders',
+      component: OrdersPendingPayment,
+    },
     {
       label: 'On-loan containers',
       path: 'on-loan-containers',

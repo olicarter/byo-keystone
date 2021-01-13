@@ -76,6 +76,8 @@ module.exports = {
       many: true,
     },
     paid: {
+      type: Checkbox,
+      defaultValue: false,
       access: {
         create: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
           !!isAdmin,
@@ -84,7 +86,6 @@ module.exports = {
         update: ({ authentication: { item: { isAdmin } = {} } = {} }) =>
           !!isAdmin,
       },
-      type: Checkbox,
       hooks: {
         afterChange: async ({
           context: { createContext, executeGraphQL } = {},
@@ -139,6 +140,7 @@ module.exports = {
     },
     submitted: {
       type: Checkbox,
+      defaultValue: false,
     },
     user: {
       type: Relationship,
@@ -178,6 +180,7 @@ module.exports = {
               query: ADDRESS_QUERY,
               variables: { id: addressId.toString() },
             });
+
             const {
               data: { DeliverySlot: { endTime, startTime } = {} } = {},
               errors: DeliverySlotQueryErrors,
@@ -186,6 +189,7 @@ module.exports = {
               query: DELIVERY_SLOT_QUERY,
               variables: { id: deliverySlotId.toString() },
             });
+
             const {
               data: { User = {} } = {},
               errors: UserQueryErrors,
