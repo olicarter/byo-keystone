@@ -1,5 +1,6 @@
 const { Integer, Text, Url } = require('@keystonejs/fields');
 const { Markdown } = require('@keystonejs/fields-markdown');
+const { Color } = require('@keystonejs/fields-color');
 const { logging, singleton } = require('@keystonejs/list-plugins');
 
 module.exports = {
@@ -10,6 +11,10 @@ module.exports = {
     update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
   },
   fields: {
+    primaryColor: {
+      type: Color,
+      isRequired: true,
+    },
     facebookUrl: {
       type: Url,
       isRequired: true,

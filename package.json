@@ -24,6 +24,7 @@
     "@keystonejs/email": "^5.2.0",
     "@keystonejs/fields": "^21.0.0",
     "@keystonejs/fields-cloudinary-image": "^2.1.1",
+    "@keystonejs/fields-color": "^1.0.9",
     "@keystonejs/fields-content": "^9.0.4",
     "@keystonejs/fields-markdown": "^5.2.13",
     "@keystonejs/file-adapters": "^7.0.8",
