@@ -23,7 +23,7 @@ module.exports = {
     },
     type: {
       type: Select,
-      options: ['bag', 'bottle', 'jar'],
+      options: ['bag', 'bottle', 'jar', 'tin'],
       isRequired: true,
     },
   },

@@ -36,7 +36,6 @@ module.exports = {
     heading: {
       adminDoc: 'Heading displayed at top of page, below message.',
       type: Text,
-      isRequired: true,
     },
     info: {
       adminDoc:
