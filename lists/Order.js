@@ -156,6 +156,7 @@ module.exports = {
         address: addressId,
         deliverySlot: deliverySlotId,
         orderNumber,
+        phone: userPhone,
         user: userId,
       } = {},
       operation,
@@ -163,32 +164,61 @@ module.exports = {
     }) => {
       if (operation === 'update') {
         if (submitted) {
-          try {
-            const {
-              data: {
-                Address: {
-                  deliveryInstructions,
-                  name,
-                  phone,
-                  postcode,
-                  street,
-                } = {},
-              } = {},
-              errors: AddressQueryErrors,
-            } = await executeGraphQL({
-              context: createContext({ skipAccessControl: true }),
-              query: ADDRESS_QUERY,
-              variables: { id: addressId.toString() },
-            });
+          let addressString = '';
+          let deliveryInstructionsString = '';
+          let deliverySlotString = 'To be collected in store';
+          let phoneString = userPhone;
 
-            const {
-              data: { DeliverySlot: { endTime, startTime } = {} } = {},
-              errors: DeliverySlotQueryErrors,
-            } = await executeGraphQL({
-              context: createContext({ skipAccessControl: true }),
-              query: DELIVERY_SLOT_QUERY,
-              variables: { id: deliverySlotId.toString() },
-            });
+          try {
+            if (addressId) {
+              const {
+                data: {
+                  Address: {
+                    deliveryInstructions,
+                    name,
+                    phone,
+                    postcode,
+                    street,
+                  } = {},
+                } = {},
+                errors: AddressQueryErrors,
+              } = await executeGraphQL({
+                context: createContext({ skipAccessControl: true }),
+                query: ADDRESS_QUERY,
+                variables: { id: addressId.toString() },
+              });
+
+              if (AddressQueryErrors) throw Error(AddressQueryErrors[0]);
+
+              addressString = `${name}, ${street}, ${postcode}`;
+              deliveryInstructionsString = deliveryInstructions;
+              phoneString = phone;
+            }
+
+            if (deliverySlotId) {
+              const {
+                data: { DeliverySlot: { endTime, startTime } = {} } = {},
+                errors: DeliverySlotQueryErrors,
+              } = await executeGraphQL({
+                context: createContext({ skipAccessControl: true }),
+                query: DELIVERY_SLOT_QUERY,
+                variables: { id: deliverySlotId.toString() },
+              });
+
+              if (DeliverySlotQueryErrors) {
+                throw Error(DeliverySlotQueryErrors[0]);
+              }
+
+              const st = LuxonDateTime.fromISO(startTime, {
+                zone: 'Europe/London',
+              });
+              const et = LuxonDateTime.fromISO(endTime, {
+                zone: 'Europe/London',
+              });
+              deliverySlotString = `Arriving between ${st.toFormat(
+                "cccc d LLL',' HH':'mm",
+              )}-${et.toFormat("HH':'mm")}`;
+            }
 
             const {
               data: { User = {} } = {},
@@ -199,31 +229,16 @@ module.exports = {
               variables: { id: userId.toString() },
             });
 
-            if (AddressQueryErrors) throw Error(AddressQueryErrors[0]);
-            if (DeliverySlotQueryErrors)
-              throw Error(DeliverySlotQueryErrors[0]);
             if (UserQueryErrors) throw Error(UserQueryErrors[0]);
-
-            const addressString = `${name}, ${street}, ${postcode}`;
-
-            const st = LuxonDateTime.fromISO(startTime, {
-              zone: 'Europe/London',
-            });
-            const et = LuxonDateTime.fromISO(endTime, {
-              zone: 'Europe/London',
-            });
-            const deliverySlot = `${st.toFormat(
-              "cccc d LLL',' HH':'mm",
-            )}-${et.toFormat("HH':'mm")}`;
 
             const variables = {
               address: addressString,
-              deliveryInstructions,
-              deliverySlot,
+              deliveryInstructions: deliveryInstructionsString,
+              deliverySlot: deliverySlotString,
               email: User.email,
               name: User.name,
               orderNumber,
-              phone,
+              phone: phoneString,
             };
 
             await sendEmail({
