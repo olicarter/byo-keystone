@@ -53,9 +53,8 @@ module.exports = {
         "Only set this field if this variant's allergen info differs from the parent product.",
       type: Text,
     },
-    deliveryInfo: {
-      adminDoc:
-        "Only set this field if this variant's delivery info differs from the parent product.",
+    description: {
+      adminDoc: 'General info about product variant.',
       type: Text,
     },
     ingredients: {

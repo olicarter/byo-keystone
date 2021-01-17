@@ -44,8 +44,8 @@ module.exports = {
       adminDoc: 'Applies to all variants.',
       type: Text,
     },
-    deliveryInfo: {
-      adminDoc: 'Applies to all variants.',
+    description: {
+      adminDoc: 'General info about product. Should apply to all variants.',
       type: Text,
     },
     ingredients: {

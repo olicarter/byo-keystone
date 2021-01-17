@@ -29,7 +29,7 @@ keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('DeliverySlot', require('./lists/DeliverySlot.js'));
 keystone.createList('Email', require('./lists/Email.js'));
-keystone.createList('Order', require('./lists/Order.js'));
+keystone.createList('Order', require('./lists/Order/index.js'));
 keystone.createList('OrderItem', require('./lists/OrderItem.js'));
 keystone.createList('Page', require('./lists/Page.js'));
 keystone.createList('Postcode', require('./lists/Postcode.js'));
