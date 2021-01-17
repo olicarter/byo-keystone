@@ -37,9 +37,8 @@
     "mailgun-js": "^0.22.0",
     "markdown-to-jsx": "^7.1.0",
     "mustache": "^4.0.1",
+    "pluralize": "^8.0.0",
     "polished": "^4.0.5",
-    "react-html-email": "^3.0.0",
-    "slugify": "^1.4.6",
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2"
   }

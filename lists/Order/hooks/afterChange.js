@@ -1,5 +1,6 @@
 const { DateTime } = require('luxon');
 const { gql } = require('apollo-server-express');
+const pluralize = require('pluralize');
 
 const { sendEmail } = require('../../../helpers');
 
@@ -51,20 +52,27 @@ const USER_QUERY = gql`
 const ORDER_ITEM_QUERY = gql`
   query($id: ID!) {
     OrderItem(where: { id: $id }) {
+      id
+      quantity
       productVariant {
+        id
         name
         increment
         incrementPrice
         unit {
           id
+          pluralAbbreviated
+          singularAbbreviated
         }
         container {
+          id
           price
           size
           unit
           type
         }
         product {
+          id
           name
           brand {
             name
@@ -224,7 +232,34 @@ const saveOrderItemSnapshot = async ({
     return Promise.reject(Error(updateOrderItemErrors[0]));
   }
 
-  return Promise.resolve();
+  return Promise.resolve(OrderItem);
+};
+
+const saveOrderItemSnapshots = async ({
+  orderId,
+  createContext,
+  executeGraphQL,
+}) => {
+  const {
+    data: { Order: { orderItems } = {} } = {},
+    errors: OrderQueryErrors,
+  } = await executeGraphQL({
+    context: createContext({ skipAccessControl: true }),
+    query: ORDER_QUERY,
+    variables: { id: orderId.toString() },
+  });
+
+  if (OrderQueryErrors) throw Error(OrderQueryErrors[0]);
+
+  return Promise.all(
+    orderItems.map(({ id: orderItemId }) =>
+      saveOrderItemSnapshot({
+        orderItemId,
+        createContext,
+        executeGraphQL,
+      }),
+    ),
+  );
 };
 
 module.exports = async ({
@@ -244,26 +279,11 @@ module.exports = async ({
   if (operation === 'update') {
     if (submitted) {
       try {
-        const {
-          data: { Order: { orderItems } = {} } = {},
-          errors: OrderQueryErrors,
-        } = await executeGraphQL({
-          context: createContext({ skipAccessControl: true }),
-          query: ORDER_QUERY,
-          variables: { id: orderId.toString() },
+        const orderItems = await saveOrderItemSnapshots({
+          orderId,
+          createContext,
+          executeGraphQL,
         });
-
-        if (OrderQueryErrors) throw Error(OrderQueryErrors[0]);
-
-        await Promise.all(
-          orderItems.map(({ id: orderItemId }) =>
-            saveOrderItemSnapshot({
-              orderItemId,
-              createContext,
-              executeGraphQL,
-            }),
-          ),
-        );
 
         const {
           address = '',
@@ -285,12 +305,104 @@ module.exports = async ({
 
         const user = await getUser({ userId, createContext, executeGraphQL });
 
+        const orderItemsByProduct = [];
+        const uniqueProductIds = [];
+        orderItems.forEach(i => {
+          if (!uniqueProductIds.includes(i.productVariant.product.id)) {
+            uniqueProductIds.push(i.productVariant.product.id);
+          }
+          const uniqueProductIdIndex = uniqueProductIds.indexOf(
+            i.productVariant.product.id,
+          );
+          orderItemsByProduct[uniqueProductIdIndex] = [
+            ...(orderItemsByProduct[uniqueProductIdIndex] || []),
+            i,
+          ];
+        });
+
+        let orderItemsParsed = '';
+
+        orderItemsByProduct.forEach(orderItems => {
+          const [
+            {
+              productVariant: {
+                product: { brand, name: productName },
+              },
+            },
+          ] = orderItems;
+
+          const { name: brandName } = brand || {};
+
+          orderItemsParsed += `<table>${
+            brandName
+              ? `<tr><td colspan="1" style="color: #7f7f7f;">${brandName}</td></tr>`
+              : ''
+          }<tr><td colspan="1" style="font-size: 16px; font-weight: 600;">${productName}</td></tr>${orderItems.map(
+            ({
+              productVariant: {
+                container,
+                increment,
+                incrementPrice,
+                name: productVariantName,
+                unit,
+              },
+              quantity,
+            }) => {
+              const isLoose =
+                ['g', 'kg', 'ml', 'L', ' liner', ' tampon', ' pad'].includes(
+                  unit.singularAbbreviated,
+                ) &&
+                (!container || (container && Number(container.price)));
+
+              // const formatPrice = price => (Number(price) * 1).toFixed(2);
+
+              return `${
+                productVariantName
+                  ? `<tr><td colspan="1" style="font-size: 13px;">${productVariantName}</td></tr>`
+                  : ''
+              }<tr><td><span>${
+                isLoose ? '' : `${quantity} x `
+              }</span><span>${`${isLoose ? increment * quantity : increment}${
+                unit.pluralAbbreviated
+              }`}</span>${
+                container && Number(container.price)
+                  ? `<span style="color: #7f7f7f;"> in returnable ${
+                      container.size
+                    }${container.unit} ${pluralize(
+                      container.type,
+                      quantity,
+                    )}</span>`
+                  : ''
+              }${
+                container && !Number(container.price)
+                  ? `<span> ${container.type}</span>`
+                  : ''
+              }</td>
+              </tr>`;
+            },
+          )}</table>`;
+        });
+
+        // Order item price cell, change colspan values back to 2 if putting
+        // back in email template
+        //
+        // <td>£${formatPrice(
+        //   incrementPrice * quantity,
+        // )}${
+        //   container && Number(container.price)
+        //     ? `<span style="color: #7f7f7f;"> + £${formatPrice(
+        //         container.price * quantity,
+        //       )}</span>`
+        //     : ''
+        // }</td>
+
         const variables = {
           address,
           deliveryInstructions,
           deliverySlot,
           email: user.email,
           name: user.name,
+          orderItems: orderItemsParsed,
           orderNumber,
           phone,
         };
