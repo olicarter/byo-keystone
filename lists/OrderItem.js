@@ -37,7 +37,7 @@ module.exports = {
       type: Text,
       adminConfig: { isReadOnly: true },
     },
-    productBrand: {
+    productBrandName: {
       type: Text,
       adminConfig: { isReadOnly: true },
     },

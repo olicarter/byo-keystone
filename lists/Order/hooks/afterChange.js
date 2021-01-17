@@ -198,7 +198,7 @@ const saveOrderItemSnapshot = async ({
   } = productVariant || {};
   const { id: productVariantUnitId } = unit || {};
   const { brand, name: productName } = product || {};
-  const { name: productBrand } = brand || {};
+  const { name: productBrandName } = brand || {};
   const {
     price: productVariantContainerPrice,
     size: productVariantContainerSize,
@@ -212,7 +212,7 @@ const saveOrderItemSnapshot = async ({
     variables: {
       id: orderItemId.toString(),
       data: {
-        productBrand,
+        productBrandName,
         productName,
         productVariantContainerPrice,
         productVariantContainerSize,
