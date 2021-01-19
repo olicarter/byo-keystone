@@ -5,7 +5,6 @@ const { logging, singleton } = require('@keystonejs/list-plugins');
 
 module.exports = {
   access: {
-    create: false,
     delete: false,
     read: true,
     update: ({ authentication: { item: { isAdmin } = {} } = {} }) => !!isAdmin,
