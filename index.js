@@ -4,12 +4,14 @@ const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 const { logging } = require('@keystonejs/list-plugins');
+const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
 
 require('dotenv').config();
 
 const schemaExtensions = require('./schemaExtensions');
 
-const { COOKIE_SECRET, MONGO_URI, NODE_ENV } = process.env;
+const { COOKIE_SECRET, MONGO_URI, MONGO_SESSION_URI, NODE_ENV } = process.env;
 
 const adapterConfig = {
   mongoUri: MONGO_URI,
@@ -17,9 +19,10 @@ const adapterConfig = {
 
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
+  cookieMaxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
   cookieSecret: COOKIE_SECRET,
   secureCookies: NODE_ENV === 'production',
-  cookieMaxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+  sessionStore: new MongoStore({ url: MONGO_SESSION_URI }),
 });
 
 keystone.createList('Address', require('./lists/Address.js'));
