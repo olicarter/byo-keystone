@@ -2,7 +2,7 @@ const { DateTime } = require('luxon');
 const { gql } = require('apollo-server-express');
 const pluralize = require('pluralize');
 
-const { sendEmail } = require('../../../helpers');
+const { sendEmail } = require('../../../functions');
 
 const {
   ADMIN_ORDER_NOTIFICATION_EMAIL_ID,

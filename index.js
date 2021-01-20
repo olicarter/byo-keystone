@@ -1,7 +1,7 @@
 const { Keystone } = require('@keystonejs/keystone');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
-const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
+const { MongooseAdapter } = require('@keystonejs/adapter-mongoose');
 const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 const { logging } = require('@keystonejs/list-plugins');
 const expressSession = require('express-session');
@@ -9,18 +9,27 @@ const MongoStore = require('connect-mongo')(expressSession);
 
 require('dotenv').config();
 
+const { seedDatabase } = require('./functions');
 const schemaExtensions = require('./schemaExtensions');
 
-const { COOKIE_SECRET, MONGO_URI, MONGO_SESSION_URI, NODE_ENV } = process.env;
+const {
+  COOKIE_SECRET,
+  MONGO_URI,
+  MONGO_SESSION_URI,
+  NODE_ENV,
+  SEED_DATABASE,
+} = process.env;
 
 const adapterConfig = {
   mongoUri: MONGO_URI,
 };
 
 const keystone = new Keystone({
-  adapter: new Adapter(adapterConfig),
+  adapter: new MongooseAdapter(adapterConfig),
   cookieMaxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
   cookieSecret: COOKIE_SECRET,
+  onConnect:
+    NODE_ENV !== 'production' && SEED_DATABASE === 'true' ? seedDatabase : null,
   secureCookies: NODE_ENV === 'production',
   sessionStore: new MongoStore({ url: MONGO_SESSION_URI }),
 });
@@ -62,9 +71,9 @@ module.exports = {
     new GraphQLApp(),
     new AdminUIApp({
       authStrategy,
-      enableDefaultRoute: true,
       isAccessAllowed: ({ authentication: { item: user } }) =>
         !!user && !!user.isAdmin,
+      enableDefaultRoute: true,
       name: 'BYO',
     }),
   ],

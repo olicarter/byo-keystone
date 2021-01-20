@@ -6,7 +6,7 @@ const {
 } = require('@keystonejs/fields');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
-const { sendEmail } = require('../helpers');
+const { sendEmail } = require('../functions');
 
 const { NEW_USER_WELCOME_EMAIL_ID } = process.env;
 

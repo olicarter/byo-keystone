@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatPrice } from '../helpers';
+import { formatPrice } from '../functions';
 
 import * as Styled from './UserOrdersProductOrderItems.styled';
 
