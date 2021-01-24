@@ -14,6 +14,32 @@ const ORDER_QUERY = gql`
     Order(where: { id: $id }) {
       orderItems {
         id
+        quantity
+        productVariant {
+          id
+          name
+          increment
+          incrementPrice
+          unit {
+            id
+            pluralAbbreviated
+            singularAbbreviated
+          }
+          container {
+            id
+            price
+            size
+            unit
+            type
+          }
+          product {
+            id
+            name
+            brand {
+              name
+            }
+          }
+        }
       }
     }
   }
@@ -45,40 +71,6 @@ const USER_QUERY = gql`
     User(where: { id: $id }) {
       email
       name
-    }
-  }
-`;
-
-const ORDER_ITEM_QUERY = gql`
-  query($id: ID!) {
-    OrderItem(where: { id: $id }) {
-      id
-      quantity
-      productVariant {
-        id
-        name
-        increment
-        incrementPrice
-        unit {
-          id
-          pluralAbbreviated
-          singularAbbreviated
-        }
-        container {
-          id
-          price
-          size
-          unit
-          type
-        }
-        product {
-          id
-          name
-          brand {
-            name
-          }
-        }
-      }
     }
   }
 `;
@@ -172,22 +164,11 @@ const getUser = async ({ userId, createContext, executeGraphQL }) => {
 };
 
 const saveOrderItemSnapshot = async ({
-  orderItemId,
   createContext,
   executeGraphQL,
+  orderItem,
 }) => {
-  const {
-    data: { OrderItem } = {},
-    errors: OrderItemQueryErrors,
-  } = await executeGraphQL({
-    context: createContext({ skipAccessControl: true }),
-    query: ORDER_ITEM_QUERY,
-    variables: { id: orderItemId.toString() },
-  });
-
-  if (OrderItemQueryErrors) throw Error(OrderItemQueryErrors[0]);
-
-  const { productVariant } = OrderItem || {};
+  const { productVariant } = orderItem || {};
   const {
     container,
     increment: productVariantIncrement,
@@ -210,7 +191,7 @@ const saveOrderItemSnapshot = async ({
     context: createContext({ skipAccessControl: true }),
     query: UPDATE_ORDER_ITEM_MUTATION,
     variables: {
-      id: orderItemId.toString(),
+      id: orderItem.id.toString(),
       data: {
         productBrandName,
         productName,
@@ -232,7 +213,7 @@ const saveOrderItemSnapshot = async ({
     return Promise.reject(Error(updateOrderItemErrors[0]));
   }
 
-  return Promise.resolve(OrderItem);
+  return Promise.resolve(orderItem);
 };
 
 const saveOrderItemSnapshots = async ({
@@ -252,12 +233,8 @@ const saveOrderItemSnapshots = async ({
   if (OrderQueryErrors) throw Error(OrderQueryErrors[0]);
 
   return Promise.all(
-    orderItems.map(({ id: orderItemId }) =>
-      saveOrderItemSnapshot({
-        orderItemId,
-        createContext,
-        executeGraphQL,
-      }),
+    orderItems.map(orderItem =>
+      saveOrderItemSnapshot({ createContext, executeGraphQL, orderItem }),
     ),
   );
 };
@@ -420,7 +397,7 @@ module.exports = async ({
           variables,
         });
       } catch (error) {
-        console.error('Send email error', error);
+        console.error(error);
       }
     }
   }

@@ -52,6 +52,7 @@ module.exports = {
       },
       hooks: {
         afterChange: fields.paid.hooks.afterChange,
+        validateInput: fields.paid.hooks.validateInput,
       },
     },
     paidAt: {
@@ -77,6 +78,7 @@ module.exports = {
   },
   hooks: {
     afterChange: hooks.afterChange,
+    validateInput: hooks.validateInput,
   },
   labelField: 'orderNumber',
   plugins: [atTracking(), byTracking(), logging(console.log)],

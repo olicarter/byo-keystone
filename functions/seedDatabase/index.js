@@ -1,6 +1,8 @@
 const { createItems } = require('@keystonejs/server-side-graphql-client');
 const casual = require('casual');
 
+const pageItems = require('./pageItems');
+
 const words = (from, to) => casual.words(casual.integer(from, to));
 
 const getRandomArrayItems = (arr, n) => {
@@ -35,27 +37,83 @@ module.exports = async keystone => {
     ],
   });
 
+  await createItems({
+    keystone,
+    listKey: 'Setting',
+    items: [
+      {
+        data: {
+          primaryColor: 'rgba(29, 119, 113, 1)',
+          facebookUrl: 'https://www.facebook.com/bringyourownuk',
+          instagramUrl: 'https://www.instagram.com/bringyourownuk',
+          minOrderValue: 15,
+          chooseDeliverySlotInfo:
+            'The delivery rider will contact you with a more precise time on day of delivery.',
+          orderSubmissionInfo:
+            'Payment is taken by the rider on delivery. Price is dependant on stock levels on day of dispatch.',
+          footerContent: `Bring Your Own Ltd is registered in England and Wales (#11247573), 147 Evelina Road, London, England, SE15 3HB
+
+          [Privacy Policy](/privacy-policy)`,
+        },
+      },
+    ],
+  });
+
+  await createItems({
+    keystone,
+    listKey: 'Page',
+    items: pageItems,
+  });
+
   const categories = await createItems({
     keystone,
     listKey: 'Category',
-    items: [...new Set(casual.array_of_words(20))].map(() => ({
-      data: { name: words(1, 2) },
-    })),
+    items: [
+      'Baking',
+      'Beans and Pulses',
+      'Bodycare',
+      'Cereals',
+      'Cleaning',
+      'Condiments',
+      'Dried Fruit',
+      'Grains',
+      'Haircare',
+      'Herbs and Spices',
+      'Jars',
+      'M*lk',
+      'Menstrual Products',
+      'Nuts and Seeds',
+      'Oil',
+      'Pasta',
+      'Sweets and Snacks',
+      'Tea and Coffee',
+      'Vinegars',
+    ].map(name => ({ data: { name } })),
   });
 
   const brands = await createItems({
     keystone,
     listKey: 'Brand',
-    items: [...new Set(casual.array_of_words(15))].map(name => ({
-      data: { name },
-    })),
+    items: [
+      ...new Set(
+        [...new Array(15).keys()].map(() => ({
+          data: { name: casual.company_name },
+        })),
+      ),
+    ],
   });
 
   const tags = await createItems({
     keystone,
     listKey: 'Tag',
-    items: [...new Set(casual.array_of_words(4))].map(name => ({
-      data: { name, abbreviation: name.charAt(0) },
+    items: ['Gluten Free', 'Organic', 'Vegan', 'Vegetarian'].map(name => ({
+      data: {
+        name,
+        abbreviation: name
+          .match(/\b(\w)/g)
+          .join('')
+          .toLowerCase(),
+      },
     })),
   });
 
@@ -95,17 +153,14 @@ module.exports = async keystone => {
           pluralAbbreviated: 'L',
         },
       },
-      ...[...Array(3).keys()].map(() => {
-        const name = casual.word;
-        return {
-          data: {
-            singular: ` ${name}`,
-            plural: ` ${name}s`,
-            singularAbbreviated: ` ${name}`,
-            pluralAbbreviated: ` ${name}s`,
-          },
-        };
-      }),
+      {
+        data: {
+          singular: ' item',
+          plural: ' items',
+          singularAbbreviated: ' item',
+          pluralAbbreviated: ' items',
+        },
+      },
     ],
   });
 
@@ -119,7 +174,7 @@ module.exports = async keystone => {
           casual.double(0.6, 1.2).toFixed(2),
         ]),
         size: casual.integer(50, 500).toString(),
-        unit: casual.random_element(['g', 'kg', 'ml', 'L']),
+        unit: casual.random_element(['g', 'ml']),
         type: casual.random_element(['bag', 'bottle', 'jar', 'tin']),
       },
     })),
