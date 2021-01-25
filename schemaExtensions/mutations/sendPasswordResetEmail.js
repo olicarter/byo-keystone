@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 const { v4: uuid } = require('uuid');
 
-const { sendEmail } = require('../../helpers');
+const { sendEmail } = require('../../functions');
 
 const { BYO_UI_URL, CUSTOMER_RESET_PASSWORD_EMAIL_ID } = process.env;
 

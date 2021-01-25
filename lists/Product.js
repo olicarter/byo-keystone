@@ -2,7 +2,7 @@ const { Relationship, Slug, Text } = require('@keystonejs/fields');
 const { CloudinaryImage } = require('@keystonejs/fields-cloudinary-image');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
-const { fileAdapters } = require('../helpers');
+const { fileAdapters } = require('../functions');
 
 const { cloudinaryAdapter } = fileAdapters;
 

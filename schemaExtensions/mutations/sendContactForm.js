@@ -1,4 +1,4 @@
-const { sendEmail } = require('../../helpers');
+const { sendEmail } = require('../../functions');
 
 const { CONTACT_FORM_SUBMISSION_EMAIL_ID } = process.env;
 

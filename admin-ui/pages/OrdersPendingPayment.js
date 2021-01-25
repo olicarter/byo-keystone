@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { DateTime } from 'luxon';
 
 import * as Styled from './UserOrders.styled';
-import { formatPrice } from './helpers';
+import { formatPrice } from './functions';
 import { Card } from './Card';
 import { UserOrdersProductOrderItems } from './UserOrdersProductOrderItems';
 
