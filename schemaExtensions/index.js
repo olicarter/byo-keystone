@@ -1,9 +1,17 @@
 const {
+  decrementOrderItem,
+  incrementOrderItem,
   resetPassword,
   sendContactForm,
   sendPasswordResetEmail,
 } = require('./mutations');
 
 module.exports = {
-  mutations: [resetPassword, sendContactForm, sendPasswordResetEmail],
+  mutations: [
+    decrementOrderItem,
+    incrementOrderItem,
+    resetPassword,
+    sendContactForm,
+    sendPasswordResetEmail,
+  ],
 };
