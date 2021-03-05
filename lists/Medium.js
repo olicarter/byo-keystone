@@ -43,4 +43,5 @@ module.exports = {
     },
   },
   plugins: [atTracking(), byTracking(), logging(console.log)],
+  plural: 'Media',
 };
