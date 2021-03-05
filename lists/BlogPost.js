@@ -1,4 +1,4 @@
-const { Select, Text } = require('@keystonejs/fields');
+const { Select, Slug, Text } = require('@keystonejs/fields');
 const { Markdown } = require('@keystonejs/fields-markdown');
 const { atTracking, byTracking, logging } = require('@keystonejs/list-plugins');
 
@@ -13,6 +13,7 @@ module.exports = {
       type: Text,
       isRequired: true,
     },
+    slug: { type: Slug },
     content: {
       type: Markdown,
       isRequired: true,

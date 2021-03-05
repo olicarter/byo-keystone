@@ -41,6 +41,7 @@ keystone.createList('Category', require('./lists/Category.js'));
 keystone.createList('Container', require('./lists/Container.js'));
 keystone.createList('DeliverySlot', require('./lists/DeliverySlot.js'));
 keystone.createList('Email', require('./lists/Email.js'));
+keystone.createList('Medium', require('./lists/Medium.js'));
 keystone.createList('Order', require('./lists/Order/index.js'));
 keystone.createList('OrderItem', require('./lists/OrderItem.js'));
 keystone.createList('Page', require('./lists/Page.js'));
